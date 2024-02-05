@@ -20,8 +20,8 @@ fn get_request(mut out: &Stdout) -> Result<String, Box<dyn Error>>{
 
 fn main() -> std::io::Result<()> {
     let mut stages:[&str; 7] = ["0", "1", "2", "3", "4", "5", "6"];
-    //let wrong_guesses = Vec::new();
-    //let correct_guesses = Vec::new();
+    let mut wrong_guesses = Vec::new();
+    let mut correct_guesses = Vec::new();
     let mut stdout = stdout();
     let num_wrong_guesses = 6;
     let secret_phrase = get_request(&stdout).expect("TODO: panic message");
@@ -45,7 +45,20 @@ fn main() -> std::io::Result<()> {
         io::stdin().read_line(&mut guess).expect("no input");
 
         // check if guess is already used
-        
+        if wrong_guesses.contains(&guess) || correct_guesses.contains(&guess) {
+            println!("you already guessed that, try again");
+            continue;
+        }
+
+        // check if guess is in the secret word
+        if secret_phrase.contains(&guess){
+            correct_guesses.push(guess);
+            // update display list with correct guess
+            
+        } else {
+            wrong_guesses.push(guess);
+            //print out stage
+        }
     }
     
     //draw_hangman(&stdout);
