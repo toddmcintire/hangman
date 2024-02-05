@@ -1,4 +1,4 @@
-use std::io::{stdout, Stdout, Write};
+use std::io::{self, stdout, Stdout, Write};
 use std::error::Error;
 
 use crossterm::{cursor, QueueableCommand, terminal::Clear};
@@ -33,10 +33,21 @@ fn main() -> std::io::Result<()> {
     let secret_len = secret_phrase.chars().count() - 4;
     let mut display = Vec::new();
 
-    for i in 0..secret_len {
+    for _ in 0..secret_len {
         display.push("_");
     }
     println!("{} {} {:?}", secret_phrase, secret_len, display);
+
+    while display.contains(&"_") {
+        // get input 
+        println!("enter guess");
+        let mut guess = String::new();
+        io::stdin().read_line(&mut guess).expect("no input");
+
+        // check if guess is already used
+        
+    }
+    
     //draw_hangman(&stdout);
     Ok(())
 }
